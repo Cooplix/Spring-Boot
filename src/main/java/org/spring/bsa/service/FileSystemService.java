@@ -61,6 +61,8 @@ public class FileSystemService {
 	}
 
 	private File getGifPath(GifEntity gifEntity) {
+		File gif = new File(PATH + "cache\\" + gifEntity.getQuery(), gifEntity.getId() + ".gif");
+		return gif.exists() ? gif : null;
 	}
 
 }
