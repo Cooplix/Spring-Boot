@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class FileSystemService {
 
-	private final String PATH = ".\\";
+	private final String PATH = "D:\\BSA\\Spring Boot\\";
 
 	public File downloadGif(GifEntity inputGifEntity) {
 		try (var inputStream = new BufferedInputStream(new URL(inputGifEntity.getUrl()).openStream())) {
