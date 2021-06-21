@@ -1,12 +1,14 @@
 package org.spring.bsa.service;
 
 import org.spring.bsa.entities.GifEntity;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 
+@Service
 public class FileSystemService {
 
 	private final String PATH = "D:\\BSA\\Spring Boot\\";
@@ -33,6 +35,32 @@ public class FileSystemService {
 		}
 
 		return null;
+	}
+
+	public void addToUserFolder(String userId, GifEntity gifEntity) {
+		String path = PATH + "\\users\\" + userId + "\\" + gifEntity.getQuery() + "\\";
+
+		File directory = new File(path);
+
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+		
+		File cacheGif = getGifPath(gifEntity);
+		
+		if(cacheGif != null) {
+			cacheGif = new File(cacheGif.getAbsolutePath());
+		} else {
+			cacheGif = downloadGif(gifEntity);
+		}
+
+		copyGifToUserFolder(userId, gifEntity.getQuery(), cacheGif.getPath());
+	}
+
+	private void copyGifToUserFolder(String userId, String query, String path) {
+	}
+
+	private File getGifPath(GifEntity gifEntity) {
 	}
 
 }
