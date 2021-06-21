@@ -4,12 +4,10 @@ import org.spring.bsa.entities.GifEntity;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.IIOException;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.time.LocalDate;
 
 @Service
 public class FileSystemService {
@@ -45,15 +43,16 @@ public class FileSystemService {
 
 		File directory = new File(path);
 
-		if(!directory.exists()) {
+		if (!directory.exists()) {
 			directory.mkdirs();
 		}
-		
+
 		File cacheGif = getGifPath(gifEntity);
-		
-		if(cacheGif != null) {
+
+		if (cacheGif != null) {
 			cacheGif = new File(cacheGif.getAbsolutePath());
-		} else {
+		}
+		else {
 			cacheGif = downloadGif(gifEntity);
 		}
 
@@ -68,7 +67,9 @@ public class FileSystemService {
 			destination.mkdirs();
 			destination = new File(destination, source.getName());
 			Files.copy(source.toPath(), destination.toPath());
-		} catch (IOException ex) {
+			historyWriter(userId, query, destination);
+		}
+		catch (IOException exception) {
 			System.out.println("File exist");
 		}
 
@@ -78,6 +79,23 @@ public class FileSystemService {
 	private File getGifPath(GifEntity gifEntity) {
 		File gif = new File(PATH + "cache\\" + gifEntity.getQuery(), gifEntity.getId() + ".gif");
 		return gif.exists() ? gif : null;
+	}
+
+	private void historyWriter(String userId, String query, File saveFile) {
+		File historyUserFile = new File(PATH + "\\users" + "\\" + userId, "history.csv");
+
+		try (PrintStream printStream = new PrintStream(new FileOutputStream(historyUserFile, true))) {
+			if (!historyUserFile.exists()) {
+				historyUserFile.createNewFile();
+			}
+
+			String history = LocalDate.now().toString() + "," + query + "," + saveFile.getAbsolutePath();
+			printStream.println(history);
+
+		}
+		catch (IOException exception) {
+			exception.printStackTrace();
+		}
 	}
 
 }
