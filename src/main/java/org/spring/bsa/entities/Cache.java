@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Cache {
 
@@ -44,6 +45,23 @@ public class Cache {
 			userMap.put(query, tempGifList);
 			this.map.put(userId, userMap);
 		}
+	}
+
+	public String getGif(String userId, String query) {
+		if (this.map.get(userId) != null && this.map.get(userId).get(query) != null) {
+			var queriList = new ArrayList<String>();
+			queriList = this.map.get(userId).get(query);
+			return queriList.get(new Random().nextInt(queriList.size()));
+		}
+		return null;
+	}
+
+	public void resetUserCache(String userId) {
+		this.map.remove(userId);
+	}
+
+	public void resetUserCache(String userId, String query) {
+		this.map.get(userId).remove(query);
 	}
 
 }
