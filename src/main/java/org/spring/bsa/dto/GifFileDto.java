@@ -6,5 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GifFileDto {
-    private Object data;
+
+	private Object data;
+
 }

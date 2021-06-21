@@ -6,6 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Query {
-    private String query;
-    private Boolean force;
+
+	private String query;
+
+	private Boolean force;
+
 }

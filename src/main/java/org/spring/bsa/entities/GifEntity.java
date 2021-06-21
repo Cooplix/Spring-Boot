@@ -6,7 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GifEntity {
-    private String url;
-    private String id;
-    private String query;
+
+	private String url;
+
+	private String id;
+
+	private String query;
+
 }
