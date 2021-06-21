@@ -3,7 +3,6 @@ package org.spring.bsa.service;
 import org.spring.bsa.entities.GifEntity;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.IIOException;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
