@@ -27,22 +27,22 @@ public class Cache {
 	public void updateCache(String userId, String query, String gifId) {
 		var tempGifList = new ArrayList<String>();
 
-		if (map.get(userId) != null) {
-			if (map.get(userId).get(query) != null) {
-				tempGifList = map.get(userId).get(query);
+		if (this.map.get(userId) != null) {
+			if (this.map.get(userId).get(query) != null) {
+				tempGifList = this.map.get(userId).get(query);
 				tempGifList.add(tempGifList.size(), gifId);
-				map.get((userId)).put(query, tempGifList);
+				this.map.get((userId)).put(query, tempGifList);
 			}
 			else {
 				tempGifList.add(gifId);
-				map.get(userId).put(query, tempGifList);
+				this.map.get(userId).put(query, tempGifList);
 			}
 		}
 		else {
 			var userMap = new HashMap<String, ArrayList<String>>();
 			tempGifList.add(gifId);
 			userMap.put(query, tempGifList);
-			map.put(userId, userMap);
+			this.map.put(userId, userMap);
 		}
 	}
 
