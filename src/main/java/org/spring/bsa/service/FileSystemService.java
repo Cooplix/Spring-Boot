@@ -1,5 +1,6 @@
 package org.spring.bsa.service;
 
+import lombok.Getter;
 import org.spring.bsa.entities.GifEntity;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 
 @Service
+@Getter
 public class FileSystemService {
 
 	private final String PATH = "D:\\BSA\\Spring Boot\\";
@@ -95,6 +97,14 @@ public class FileSystemService {
 		catch (IOException exception) {
 			exception.printStackTrace();
 		}
+	}
+
+	public File getHistory(String userId) {
+		return new File(PATH + "users\\" + userId + "\\history.csv");
+	}
+
+	public boolean deleteHistory(String userId) {
+		return new File(PATH + "users\\" + userId + "\\history.csv").delete();
 	}
 
 }
