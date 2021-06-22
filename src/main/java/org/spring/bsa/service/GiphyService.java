@@ -6,9 +6,11 @@ import org.spring.bsa.dto.Query;
 import org.spring.bsa.entities.GifEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@Service
 public class GiphyService {
 
 	Environment environment;

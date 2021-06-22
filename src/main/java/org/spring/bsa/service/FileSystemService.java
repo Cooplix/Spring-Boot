@@ -39,7 +39,7 @@ public class FileSystemService {
 		return null;
 	}
 
-	public void addToUserFolder(String userId, GifEntity gifEntity) {
+	public  void addToUserFolder(String userId, GifEntity gifEntity) {
 		String path = PATH + "\\users\\" + userId + "\\" + gifEntity.getQuery() + "\\";
 
 		File directory = new File(path);
