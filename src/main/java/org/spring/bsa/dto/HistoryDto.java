@@ -8,7 +8,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class HistoryDto {
-    LocalDate date;
-    String query;
-    String gif;
+
+	LocalDate date;
+
+	String query;
+
+	String gif;
+
 }

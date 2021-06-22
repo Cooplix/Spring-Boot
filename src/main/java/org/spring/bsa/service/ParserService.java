@@ -10,60 +10,64 @@ import java.util.*;
 
 @Service
 public class ParserService {
-    public CacheDto[] parseCache(Map<String, File[]> queriedCache) {
 
-        Collection<CacheDto> cache = new ArrayList<>();
+	public CacheDto[] parseCache(Map<String, File[]> queriedCache) {
 
-        for (Map.Entry<String, File[]> entry : queriedCache.entrySet()) {
-            Collection<String> paths = new ArrayList<>();
-            Queue<File> filesToCheck = new PriorityQueue<>(Arrays.asList(entry.getValue()));
+		Collection<CacheDto> cache = new ArrayList<>();
 
-            while ( ! filesToCheck.isEmpty() ) {
-                File file = filesToCheck.poll();
-                if (file.isDirectory()) {
-                    Collections.addAll(filesToCheck, file.listFiles());
-                } else {
-                    paths.add(file.getAbsolutePath());
-                }
-            }
+		for (Map.Entry<String, File[]> entry : queriedCache.entrySet()) {
+			Collection<String> paths = new ArrayList<>();
+			Queue<File> filesToCheck = new PriorityQueue<>(Arrays.asList(entry.getValue()));
 
-            CacheDto dto = new CacheDto();
-            dto.setQuery(entry.getKey());
-            dto.setGifs(paths.toArray(new String[0]));
+			while (!filesToCheck.isEmpty()) {
+				File file = filesToCheck.poll();
+				if (file.isDirectory()) {
+					Collections.addAll(filesToCheck, file.listFiles());
+				}
+				else {
+					paths.add(file.getAbsolutePath());
+				}
+			}
 
-            cache.add(dto);
-        }
+			CacheDto dto = new CacheDto();
+			dto.setQuery(entry.getKey());
+			dto.setGifs(paths.toArray(new String[0]));
 
-        return cache.toArray(new CacheDto[0]);
-    }
+			cache.add(dto);
+		}
 
-    public String[] parseOnlyFiles(Map<String, File[]> queriedCache) {
-        var cacheDto = parseCache(queriedCache);
-        return cacheDto[0].getGifs();
-    }
+		return cache.toArray(new CacheDto[0]);
+	}
 
-    private List<HistoryDto> historyParser(File file) {
-        var historyList = new ArrayList<HistoryDto>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
-            String line;
-            while((line = reader.readLine()) != null) {
-                var history = new HistoryDto();
-                String[] result = line.split(",");
-                history.setDate(LocalDate.parse(result[0]));
-                history.setQuery(result[1]);
-                history.setGif(result[2]);
-                historyList.add(history);
-            }
-        } catch (IOException ex) {
-            System.err.println("Impossible to read file");
-        }
+	public String[] parseOnlyFiles(Map<String, File[]> queriedCache) {
+		var cacheDto = parseCache(queriedCache);
+		return cacheDto[0].getGifs();
+	}
 
-        return historyList;
-    }
+	private List<HistoryDto> historyParser(File file) {
+		var historyList = new ArrayList<HistoryDto>();
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				var history = new HistoryDto();
+				String[] result = line.split(",");
+				history.setDate(LocalDate.parse(result[0]));
+				history.setQuery(result[1]);
+				history.setGif(result[2]);
+				historyList.add(history);
+			}
+		}
+		catch (IOException ex) {
+			System.err.println("Impossible to read file");
+		}
 
-    public HistoryDto[] parseHistory(File file) {
-        var resultList = historyParser(file);
-        var resultArray = new HistoryDto[resultList.size()];
-        return resultList.toArray(resultArray);
-    }
+		return historyList;
+	}
+
+	public HistoryDto[] parseHistory(File file) {
+		var resultList = historyParser(file);
+		var resultArray = new HistoryDto[resultList.size()];
+		return resultList.toArray(resultArray);
+	}
+
 }
