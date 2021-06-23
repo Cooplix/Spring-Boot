@@ -93,19 +93,19 @@ public class UserController {
 			return validateUserID(id);
 		}
 
-
 		File gif;
-		if(!query.getForce()) {
-			gif =fileSystemService.getGifPath(query.getQuery());
-			if(gif != null) {
+		if (!query.getForce()) {
+			gif = fileSystemService.getGifPath(query.getQuery());
+			if (gif != null) {
 				return new ResponseEntity<>(gif.getAbsolutePath(), HttpStatus.OK);
 			}
 		}
 		var gifEntity = giphyService.searchGif(null, query);
-		var resultFile = fileSystemService.copyGifToUserFolder(id, query.getQuery(), fileSystemService.downloadGif(gifEntity).getPath());
+		var resultFile = fileSystemService.copyGifToUserFolder(id, query.getQuery(),
+				fileSystemService.downloadGif(gifEntity).getPath());
 
-		if(resultFile ==null) {
-			return  ResponseEntity.notFound().build();
+		if (resultFile == null) {
+			return ResponseEntity.notFound().build();
 		}
 
 		gif = fileSystemService.getGifPath(query.getQuery());
@@ -119,9 +119,10 @@ public class UserController {
 			return validateUserID(id);
 		}
 
-		if( query == null) {
+		if (query == null) {
 			cache.resetUserCache(id);
-		} else {
+		}
+		else {
 			cache.resetUserCache(id, query);
 		}
 		return ResponseEntity.ok().build();
@@ -144,17 +145,17 @@ public class UserController {
 			return validateUserID(id);
 		}
 
-		if(!force) {
+		if (!force) {
 			var gif = cache.getGif(id, query);
-			if(gif != null) {
+			if (gif != null) {
 				return new ResponseEntity<>(gif, HttpStatus.OK);
 			}
 		}
 
 		var gif = fileSystemService.getGifPath(query);
 
-		if(gif == null) {
-			return  ResponseEntity.notFound().build();
+		if (gif == null) {
+			return ResponseEntity.notFound().build();
 		}
 
 		cache.updateCache(id, query, gif.getAbsolutePath());

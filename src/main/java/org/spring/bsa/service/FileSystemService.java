@@ -155,8 +155,10 @@ public class FileSystemService {
 		File userFolder = new File(PATH + "users\\" + id);
 		try {
 			FileUtils.forceDelete(userFolder);
-		} catch (IOException ex) {
+		}
+		catch (IOException ex) {
 			System.err.println(ex);
 		}
 	}
+
 }
