@@ -1,12 +1,14 @@
 package org.spring.bsa.entities;
 
 import lombok.Getter;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+@Component
 public class Cache {
 
 	@Getter
