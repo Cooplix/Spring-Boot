@@ -10,10 +10,7 @@ import org.spring.bsa.utils.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MainController {
@@ -60,6 +57,12 @@ public class MainController {
 	public ResponseEntity<?> getCache(String query) {
 		var fullCache = parserService.parseCache(fileSystemService.getAllGifFromCache(query));
 		return new ResponseEntity<>(fullCache, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/cache")
+	public ResponseEntity<?> deleteCache() {
+		fileSystemService.deleteCahce();
+		return ResponseEntity.ok().build();
 	}
 
 }

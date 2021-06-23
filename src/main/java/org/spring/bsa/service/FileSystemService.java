@@ -1,7 +1,6 @@
 package org.spring.bsa.service;
 
 import lombok.Getter;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.spring.bsa.entities.GifEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
 @Service
 @Getter
@@ -65,7 +63,7 @@ public class FileSystemService {
 		copyGifToUserFolder(userId, gifEntity.getQuery(), cacheGif.getPath());
 	}
 
-	public File copyGifToUserFolder(String userId, String query, String cachePath) {
+	private File copyGifToUserFolder(String userId, String query, String cachePath) {
 		File source = new File(cachePath);
 		File destination = new File(PATH + "\\users\\" + userId + "\\" + query);
 
@@ -117,19 +115,18 @@ public class FileSystemService {
 	}
 
 	public Map<String, File[]> getAllGifFromCache(String query, String pathSpecifier) {
-		if (query != null) {
+		if(query != null) {
 			var file = new File(PATH + "cache\\" + query);
 			File[] files = file.listFiles();
 			var map = new HashMap<String, File[]>();
 			map.put(query, files);
 			return map;
-		}
-		else {
+		} else {
 			File generateFile = new File(PATH + pathSpecifier);
 			var map = new HashMap<String, File[]>();
 			File[] childrenFile = new File[Objects.requireNonNull(generateFile.listFiles()).length];
 			int i = 0;
-			for (File file : Objects.requireNonNull(generateFile.listFiles())) {
+			for (File file: Objects.requireNonNull(generateFile.listFiles())) {
 				childrenFile[i] = file;
 				i++;
 			}
@@ -140,25 +137,8 @@ public class FileSystemService {
 
 	}
 
-	public Map<String, File[]> getAllUserGifFromCache(String id) {
-		return getAllGifFromCache(null, "users\\" + id);
+	public void deleteCahce() {
+		File cache = new File(PATH + "cache");
+		cache.delete();
 	}
-
-	public File getGifPath(String query) {
-		File gif = new File((PATH + "cache\\" + query));
-		File[] files = gif.listFiles();
-
-		return files != null ? files[new Random().nextInt(files.length)] : null;
-	}
-
-	public void deleteUser(String id) {
-		File userFolder = new File(PATH + "users\\" + id);
-		try {
-			FileUtils.forceDelete(userFolder);
-		}
-		catch (IOException ex) {
-			System.err.println(ex);
-		}
-	}
-
 }
