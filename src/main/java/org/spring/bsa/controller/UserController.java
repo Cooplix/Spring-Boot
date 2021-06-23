@@ -45,7 +45,7 @@ public class UserController {
 		return null;
 	}
 
-	@GetMapping("{user_id/history}")
+	@GetMapping("{id/history}")
 	public ResponseEntity<?> getUserHistory(@PathVariable String id) {
 		if (validateUserID(id) != null) {
 			return validateUserID(id);
@@ -61,7 +61,7 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping("{user_id}/history/clean")
+	@DeleteMapping("{id}/history/clean")
 	public ResponseEntity<?> deleteUserHistory(@PathVariable String id) {
 		if (validateUserID(id) != null) {
 			return validateUserID(id);

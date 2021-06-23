@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Query {
+public class QueryDto {
 
 	private String query;
 

@@ -1,7 +1,7 @@
 package org.spring.bsa.controller;
 
 import org.spring.bsa.dto.CacheDto;
-import org.spring.bsa.dto.Query;
+import org.spring.bsa.dto.QueryDto;
 import org.spring.bsa.entities.Cache;
 import org.spring.bsa.service.FileSystemService;
 import org.spring.bsa.service.GiphyService;
@@ -42,11 +42,11 @@ public class MainController {
 	}
 
 	@PostMapping("/cache/generate")
-	public ResponseEntity<?> getGif(@RequestBody Query query) {
-		var giphyApi = giphyService.searchGif(null, query);
+	public ResponseEntity<?> getGif(@RequestBody QueryDto queryDto) {
+		var giphyApi = giphyService.searchGif(null, queryDto);
 		fileSystemService.downloadGif(giphyApi);
 
-		CacheDto cacheDto = parserService.parseCache(fileSystemService.getAllGifFromCache(query.getQuery()))[0];
+		CacheDto cacheDto = parserService.parseCache(fileSystemService.getAllGifFromCache(queryDto.getQuery()))[0];
 		return new ResponseEntity<>(cache, HttpStatus.OK);
 	}
 

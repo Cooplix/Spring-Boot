@@ -2,7 +2,7 @@ package org.spring.bsa.service;
 
 import org.json.JSONObject;
 import org.spring.bsa.dto.GifFileDto;
-import org.spring.bsa.dto.Query;
+import org.spring.bsa.dto.QueryDto;
 import org.spring.bsa.entities.GifEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -20,10 +20,10 @@ public class GiphyService {
 		this.environment = environment;
 	}
 
-	public GifEntity searchGif(String user_id, Query query) {
+	public GifEntity searchGif(String user_id, QueryDto queryDto) {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(environment.getProperty("giphy.search.url"))
-				.queryParam("api_key", environment.getProperty("giphy.api.key")).queryParam("tag", query.getQuery())
+				.queryParam("api_key", environment.getProperty("giphy.api.key")).queryParam("tag", queryDto.getQuery())
 				.queryParam("random_id", user_id);
 
 		GifFileDto gifFile = restTemplate.getForObject(builder.toUriString(), GifFileDto.class);
@@ -39,7 +39,7 @@ public class GiphyService {
 		url.replace(8, 14, "i");
 
 		gifEntity.setUrl(url.toString());
-		gifEntity.setQuery(query.getQuery());
+		gifEntity.setQuery(queryDto.getQuery());
 
 		return gifEntity;
 	}
