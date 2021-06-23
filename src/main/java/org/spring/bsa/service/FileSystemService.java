@@ -8,6 +8,9 @@ import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Getter
@@ -105,6 +108,33 @@ public class FileSystemService {
 
 	public boolean deleteHistory(String userId) {
 		return new File(PATH + "users\\" + userId + "\\history.csv").delete();
+	}
+
+	public Map<String, File[]> getAllGifFromCache(String query) {
+		return getAllGifFromCache(query, "cache");
+	}
+
+	public Map<String, File[]> getAllGifFromCache(String query, String pathSpecifier) {
+		if(query != null) {
+			var file = new File(PATH + "cache\\" + query);
+			File[] files = file.listFiles();
+			var map = new HashMap<String, File[]>();
+			map.put(query, files);
+			return map;
+		} else {
+			File generateFile = new File(PATH + pathSpecifier);
+			var map = new HashMap<String, File[]>();
+			File[] childrenFile = new File[Objects.requireNonNull(generateFile.listFiles()).length];
+			int i = 0;
+			for (File file: Objects.requireNonNull(generateFile.listFiles())) {
+				childrenFile[i] = file;
+				i++;
+			}
+
+			map.put("gifs", childrenFile);
+			return map;
+		}
+
 	}
 
 }
