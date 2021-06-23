@@ -61,7 +61,8 @@ public class MainController {
 
 	@DeleteMapping("/cache")
 	public ResponseEntity<?> deleteCache() {
-		fileSystemService.deleteCahce();
+
+		fileSystemService.learCache();
 		return ResponseEntity.ok().build();
 	}
 
