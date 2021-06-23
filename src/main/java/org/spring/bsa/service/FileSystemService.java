@@ -115,18 +115,19 @@ public class FileSystemService {
 	}
 
 	public Map<String, File[]> getAllGifFromCache(String query, String pathSpecifier) {
-		if(query != null) {
+		if (query != null) {
 			var file = new File(PATH + "cache\\" + query);
 			File[] files = file.listFiles();
 			var map = new HashMap<String, File[]>();
 			map.put(query, files);
 			return map;
-		} else {
+		}
+		else {
 			File generateFile = new File(PATH + pathSpecifier);
 			var map = new HashMap<String, File[]>();
 			File[] childrenFile = new File[Objects.requireNonNull(generateFile.listFiles()).length];
 			int i = 0;
-			for (File file: Objects.requireNonNull(generateFile.listFiles())) {
+			for (File file : Objects.requireNonNull(generateFile.listFiles())) {
 				childrenFile[i] = file;
 				i++;
 			}

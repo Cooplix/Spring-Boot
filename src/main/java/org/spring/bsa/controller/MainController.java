@@ -42,15 +42,15 @@ public class MainController {
 	}
 
 	@PostMapping("/cache/generate")
-    public ResponseEntity<?> getGif(@RequestBody Query query) {
-	    var giphyApi = giphyService.searchGif(null, query);
-	    fileSystemService.downloadGif(giphyApi);
+	public ResponseEntity<?> getGif(@RequestBody Query query) {
+		var giphyApi = giphyService.searchGif(null, query);
+		fileSystemService.downloadGif(giphyApi);
 
-	    CacheDto cacheDto = parserService.parseCache(fileSystemService.getAllGifFromCache(query.getQuery()))[0];
-	    return new ResponseEntity<>(cache, HttpStatus.OK);
-    }
+		CacheDto cacheDto = parserService.parseCache(fileSystemService.getAllGifFromCache(query.getQuery()))[0];
+		return new ResponseEntity<>(cache, HttpStatus.OK);
+	}
 
-    @GetMapping("/gifs")
+	@GetMapping("/gifs")
 	public ResponseEntity<?> getGifs() {
 		var gifsArray = parserService.parseOnlyFiles(fileSystemService.getAllGifFromCache(null));
 		return new ResponseEntity<>(gifsArray, HttpStatus.OK);
