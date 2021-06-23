@@ -137,4 +137,8 @@ public class FileSystemService {
 
 	}
 
+	public void deleteCahce() {
+		File cache = new File(PATH + "cache");
+		cache.delete();
+	}
 }
